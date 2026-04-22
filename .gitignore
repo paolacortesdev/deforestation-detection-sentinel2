@@ -1,0 +1,11 @@
+data/
+tiles_par1/
+tiles_par2/
+tiles_par3/
+labels_par1/
+labels_par2/
+labels_par3/
+stacks/
+*.npy
+*.tif
+*.png

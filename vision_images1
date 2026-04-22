@@ -1,0 +1,123 @@
+import rasterio
+import numpy as np
+import matplotlib.pyplot as plt
+
+dataset_pre1 = rasterio.open("C:/Users/core i7/vision_sentinental/Pareja1_imagenes/subset_S2A_MSIL2A_20160718T135122_N0500_R024_T21KYU_brasil1_1_resampled.tif")
+
+print("Número de bandas:", dataset_pre1.count)
+
+B2_pre1 = dataset_pre1.read(1).astype(float)
+B3_pre1 = dataset_pre1.read(2).astype(float)
+B4_pre1 = dataset_pre1.read(3).astype(float)
+B8_pre1 = dataset_pre1.read(4).astype(float)
+B11_pre1 = dataset_pre1.read(6).astype(float)
+B12_pre1 = dataset_pre1.read(7).astype(float)
+
+
+B2_pre1 /= 10000
+B3_pre1 /= 10000
+B4_pre1 /= 10000
+B8_pre1 /= 10000
+B11_pre1 /= 10000
+B12_pre1 /= 10000
+
+#Índices espectrales
+ndvi_pre1 = (B8_pre1 - B4_pre1) / (B8_pre1 + B4_pre1 + 1e-10)
+nbr_pre1 = (B8_pre1 - B12_pre1) / (B8_pre1 + B12_pre1 + 1e-10)
+
+plt.imshow(nbr_pre1, cmap='RdYlGn')
+plt.title("NBR (Pre-incendio)")
+plt.colorbar()
+plt.show()
+
+dataset_pos1 = rasterio.open("C:/Users/core i7/vision_sentinental/Pareja1_imagenes/subset_S2B_MSIL2A_20240731T134709_N0511_R024_T21KYU_brasil1_2_resampled.tif")
+
+print("Número de bandas:", dataset_pos1.count)
+
+B2_pos1 = dataset_pos1.read(1).astype(float)
+B3_pos1 = dataset_pos1.read(2).astype(float)
+B4_pos1 = dataset_pos1.read(3).astype(float)
+B8_pos1 = dataset_pos1.read(4).astype(float)
+B11_pos1 = dataset_pos1.read(6).astype(float)
+B12_pos1 = dataset_pos1.read(7).astype(float)
+
+B2_pos1 /= 10000
+B3_pos1 /= 10000
+B4_pos1 /= 10000
+B8_pos1 /= 10000
+B11_pos1 /= 10000
+B12_pos1 /= 10000
+
+ndvi_pos1 = (B8_pos1 - B4_pos1) / (B8_pos1 + B4_pos1 + 1e-10)
+nbr_pos1 = (B8_pos1 - B12_pos1) / (B8_pos1 + B12_pos1 + 1e-10)
+
+
+plt.imsave("nbr_pre1.png", nbr_pre1[::10, ::10], cmap='RdYlGn', vmin=-1, vmax=1)
+plt.imsave("nbr_post1.png", nbr_pos1[::10, ::10], cmap='RdYlGn', vmin=-1, vmax=1)    
+
+plt.imsave("ndvi_pre1.png", ndvi_pre1[::10, ::10], cmap='RdYlGn', vmin=-1, vmax=1)
+plt.imsave("ndvi_post1.png", ndvi_pos1[::10, ::10], cmap='RdYlGn', vmin=-1, vmax=1)   
+
+import os
+
+os.makedirs("bandas", exist_ok=True)
+
+def guardar_banda(banda, nombre):
+    banda = banda.astype(np.float32)
+    
+    # normalizar entre 0 y 1
+    banda_norm = (banda - banda.min()) / (banda.max() - banda.min() + 1e-10)
+    
+    # reducir tamaño para no romper RAM
+    banda_small = banda_norm[::10, ::10]
+    
+    plt.imsave(f"bandas_pos1/{nombre}.png", banda_small, cmap='gray')
+
+guardar_banda(B2_pos1, "B2_pos1")
+guardar_banda(B3_pos1, "B3_pos1")
+guardar_banda(B4_pos1, "B4_pos1")
+guardar_banda(B8_pos1, "B8_pos1")
+guardar_banda(B11_pos1, "B11_pos1")
+guardar_banda(B12_pos1, "B12_pos1")
+
+dNDVI1 = ndvi_pre1 - ndvi_pos1
+
+plt.imshow(dNDVI1[::10, ::10], cmap='RdYlGn', vmin=-1, vmax=1)
+plt.title("dNDVI (Cambio en vegetación)")
+plt.colorbar()
+plt.show()
+
+dnbr1 = nbr_pre1 - nbr_pos1
+
+plt.imshow(dnbr1[::10, ::10], cmap='RdBu', vmin=-1, vmax=1)
+plt.title("dNBR (Severidad de incendio)")
+plt.colorbar()
+plt.show()
+
+plt.imsave("dndvi1.png", dNDVI1[::10, ::10], cmap='RdYlGn', vmin=-1, vmax=1)
+plt.imsave("dnbr1.png", dnbr1[::10, ::10], cmap='RdBu', vmin=-1, vmax=1)
+
+# -------------------------------------------------------------
+# -------------------------------------------------------------
+
+from rasterio.windows import Window
+
+window = Window(3000, 3000, 2048, 2048)
+
+B2 = dataset_pos1.read(1, window=window).astype(float) /10000
+B3 = dataset_pos1.read(2, window=window).astype(float) /10000
+B4 = dataset_pos1.read(3, window=window).astype(float) /10000
+B8 = dataset_pos1.read(4, window=window).astype(float) /10000
+B11 = dataset_pos1.read(6, window=window).astype(float) /10000
+B12 = dataset_pos1.read(7, window=window).astype(float) /10000
+
+NDVI = (B8 - B4) / (B8 + B4 + 1e-10)
+NBR  = (B8 - B12) / (B8 + B12 + 1e-10)
+NDMI = (B8 - B11) / (B8 + B11 + 1e-10)
+
+stack_pos1 = np.stack([
+    B2, B3, B4, B8, B11, B12,
+    NDVI, NBR, NDMI
+], axis=0)
+
+np.save("stack_pos1.npy", stack_pos1)
