@@ -15,6 +15,12 @@ Se han generado mapas de índices espectrales como NDVI y NBR, así como diferen
 
 Imagen Sentinel-2 → Preprocesamiento → Cálculo de índices → Stack multicanal → Tiles → Labels → (Modelo en desarrollo)
 
+## Ejemplo de resultados
+
+Comparación entre imagen pre-evento y post-evento en formato RGB:
+
+![Ejemplo de tile](results/tile_example.png)
+
 ## Próximos pasos
 
 - Implementación de modelo U-Net  
