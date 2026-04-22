@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 # Carpeta de tiles (la tuya)
-tiles_dir = r"C:\Users\core i7\vision_sentinental\tiles_par3"
+tiles_dir = "data/tiles_par3"
 
 # Escoge el número de tile que quieras ver
 tile_id = 0
@@ -48,3 +48,23 @@ plt.axis("off")
 
 plt.suptitle(f"Tile {tile_id} - RGB (B4, B3, B2)")
 plt.show()
+
+# Guardar imagen
+os.makedirs("results", exist_ok=True)
+
+plt.figure(figsize=(10,5))
+
+plt.subplot(1,2,1)
+plt.imshow(rgb_pre)
+plt.title("PRE")
+plt.axis("off")
+
+plt.subplot(1,2,2)
+plt.imshow(rgb_post)
+plt.title("POST")
+plt.axis("off")
+
+plt.suptitle(f"Tile {tile_id} - RGB")
+
+plt.savefig("results/tile_example.png", bbox_inches="tight")
+plt.close()
