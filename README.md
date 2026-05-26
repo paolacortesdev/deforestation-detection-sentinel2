@@ -37,7 +37,6 @@ El pipeline del proyecto se compone de las siguientes etapas:
 - Cálculo de índices espectrales:
   - NDVI (Normalized Difference Vegetation Index)
   - NBR (Normalized Burn Ratio)
-  - NDMI (Normalized Difference Moisture Index)
 
 ---
 
@@ -330,10 +329,6 @@ El modelo detecta automáticamente zonas afectadas mediante segmentación binari
 ![Prediction Example](results/prediction_example.png)
 
 
-### Visualización de tiles
-
-![Tile Example](results/tile_example.png)
-
 ---
 
 ## Tecnologías utilizadas
@@ -355,7 +350,6 @@ El modelo detecta automáticamente zonas afectadas mediante segmentación binari
 - Entrenamiento distribuido
 - Optimización de hiperparámetros
 - Inferencia sobre imágenes completas
-- Exportación del modelo a ONNX o TorchScript
 - Integración con dashboards geoespaciales
 
 ---
