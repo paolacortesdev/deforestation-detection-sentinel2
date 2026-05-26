@@ -305,15 +305,30 @@ Ejecutar:
 python demo.py
 ```
 
-## Resultados
+## Resultados cuantitativos
 
-### Predicción del modelo
+Métricas obtenidas con el modelo final DeepLabV3+ + ResNet50:
 
-![Predicción](results/prediction_example.png)
+| Métrica | Valor |
+|---|---|
+| Accuracy | 0.91 |
+| Precision | 0.77 |
+| Recall | 0.85 |
+| F1-Score | 0.81 |
+| IoU | 0.68 |
 
-### Curva de entrenamiento
+Estas métricas muestran una buena capacidad del modelo para detectar zonas de cambio en cobertura terrestre, especialmente considerando el desbalance entre clases y la complejidad de los datos satelitales.
 
-![Training Curve](results/training_curve.png)
+### Matriz de confusión
+
+![Confusion Matrix](results/confusion_matrix.png)
+
+### Ejemplo de predicción
+
+El modelo detecta automáticamente zonas afectadas mediante segmentación binaria de cambios.
+
+![Prediction Example](results/prediction_example.png)
+
 
 ### Visualización de tiles
 
