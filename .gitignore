@@ -1,0 +1,29 @@
+# Datos (NO subir)
+data/
+tiles_par1/
+tiles_par2/
+tiles_par3/
+labels_par1/
+labels_par2/
+labels_par3/
+stacks/
+tiles_demo/
+models/*.pth
+# Archivos pesados
+*.npy
+*.tif
+
+# ⚠️ IMPORTANTE: PERMITIR imágenes de resultados
+# (por eso NO ponemos *.png aquí)
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Entornos
+.venv/
+env/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
