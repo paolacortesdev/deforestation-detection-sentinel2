@@ -223,3 +223,13 @@ plt.figtext(
 plt.tight_layout()
 
 plt.show()
+
+os.makedirs("results", exist_ok=True)
+
+plt.savefig(
+    "results/tile_example.png",
+    bbox_inches="tight",
+    dpi=300
+)
+
+print("Resultado guardado en results/tile_example.png")

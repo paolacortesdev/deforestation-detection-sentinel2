@@ -162,6 +162,9 @@ def train():
     np.save("results/train_losses.npy", train_losses)
     np.save("results/val_losses.npy", val_losses)
 
+    
+
 
 if __name__ == "__main__":
     train()
+
