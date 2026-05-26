@@ -28,7 +28,7 @@ model = smp.DeepLabV3Plus(
 
 model.load_state_dict(
     torch.load(
-        "models/best_deeplabv3plus.pth",
+        "models/modelo_final.pth",
         map_location=device
     )
 )
